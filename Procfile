@@ -1,1 +1,1 @@
-web: gunicorn carsite.wsgi
+web: python manage.py migrate && gunicorn carsite.wsgi
