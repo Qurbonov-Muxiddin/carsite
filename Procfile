@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn carsite.wsg
+web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn carsite.wsgi
