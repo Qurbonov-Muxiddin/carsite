@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5n!9t=vi=qxre1anhah80tzfmx-t0c1ter)#olis&btsk_8zij
 DEBUG = True
 
 ALLOWED_HOSTS = ["carsite-production-891b.up.railway.app"]
-
+CSRF_TRUSTED_ORIGINS = ["https://carsite-production-891b.up.railway.app"]
 
 # Application definition
 
