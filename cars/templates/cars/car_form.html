@@ -1,0 +1,19 @@
+{% extends "cars/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ title }}</h2>
+<form method="post" enctype="multipart/form-data" class="col-md-8">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Saqlash</button>
+    <a href="{% url 'cars:car_list' %}" class="btn btn-outline-secondary">Bekor qilish</a>
+</form>
+{% endblock %}

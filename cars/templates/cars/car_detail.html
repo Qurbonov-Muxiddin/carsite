@@ -1,0 +1,87 @@
+{% extends "cars/base.html" %}
+{% block title %}{{ car.name }}{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+        <div class="row g-0">
+
+            <div class="col-lg-7">
+
+                {% if car.image %}
+                    <img src="{{ car.image.url }}"
+                         class="img-fluid w-100 detail-image"
+                         alt="{{ car.name }}">
+                {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center detail-image">
+                        <h4>Rasm yo'q</h4>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="col-lg-5">
+
+                <div class="p-4">
+
+                    <span class="badge bg-dark fs-6 mb-3">
+                        {{ car.year }}
+                    </span>
+
+                    <h1 class="fw-bold">
+                        {{ car.name }}
+                    </h1>
+
+                    <h5 class="text-muted mb-4">
+                        {{ car.brand.name }}
+                    </h5>
+
+                    <h2 class="text-success fw-bold mb-4">
+                        ${{ car.price }}
+                    </h2>
+
+                    <hr>
+
+                    <p>
+                        <strong>Tavsif</strong>
+                    </p>
+
+                    <p class="text-secondary">
+                        {{ car.description|default:"Tavsif kiritilmagan." }}
+                    </p>
+
+                    {% if user.is_authenticated and user == car.owner %}
+<div class="d-flex gap-2 mt-4">
+
+    <a href="{% url 'cars:car_update' car.pk %}"
+       class="btn btn-warning">
+        ✏️ Tahrirlash
+    </a>
+
+    <a href="{% url 'cars:car_delete' car.pk %}"
+       class="btn btn-danger">
+        🗑 O'chirish
+    </a>
+
+</div>
+{% endif %}
+
+                    <a href="{% url 'cars:car_list' %}"
+                       class="btn btn-dark mt-4 w-100">
+                        ← Mashinalarga qaytish
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

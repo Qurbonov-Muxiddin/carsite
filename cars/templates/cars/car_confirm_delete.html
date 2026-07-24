@@ -1,0 +1,13 @@
+{% extends "cars/base.html" %}
+{% block title %}O'chirishni tasdiqlash{% endblock %}
+{% block content %}
+<h2 class="mb-4">Mashinani o'chirish</h2>
+<div class="alert alert-danger">
+    "<strong>{{ car.name }}</strong>" mashinasini rostdan ham o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ha, o'chirish</button>
+    <a href="{% url 'cars:car_detail' car.pk %}" class="btn btn-outline-secondary">Bekor qilish</a>
+</form>
+{% endblock %}
