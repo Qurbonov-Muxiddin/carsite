@@ -1,34 +1,35 @@
+
 {% extends "cars/base.html" %}
 {% block title %}Mashinalar ro'yxati{% endblock %}
 {% block content %}
-
-
+ 
+ 
 <div class="hero text-center text-white py-5 mb-5">
-
+ 
     <h1 class="display-3 fw-bold">
         AutoMarket
     </h1>
-
+ 
     <p class="lead">
         O'zingizga mos avtomobilni toping
     </p>
-
+ 
 </div>
-
+ 
 <div class="row">
-
+ 
     <div class="col-lg-3">
-
+ 
         <div class="card shadow-sm mb-4">
-
+ 
             <div class="card-header">
                 <strong>Filter</strong>
             </div>
-
+ 
             <div class="card-body">
-
+ 
                 <form method="GET">
-
+ 
                     <div class="mb-3">
                         <label>Qidiruv</label>
                         <input
@@ -37,14 +38,14 @@
                             class="form-control"
                             value="{{ query }}">
                     </div>
-
+ 
                     <div class="mb-3">
                         <label>Brend</label>
-
+ 
                         <select name="brand" class="form-select">
-
+ 
                             <option value="">Barchasi</option>
-
+ 
                             {% for brand in brands %}
                             <option
                                 value="{{ brand.id }}"
@@ -55,99 +56,130 @@
                                 {{ brand.name }}
                             </option>
                             {% endfor %}
-
+ 
                         </select>
-
+ 
                     </div>
-
+ 
                     <div class="mb-3">
                         <label>Minimal narx</label>
-
+ 
                         <input
                             type="number"
                             class="form-control"
                             name="min_price"
                             value="{{ min_price }}">
                     </div>
-
+ 
                     <div class="mb-3">
                         <label>Maksimal narx</label>
-
+ 
                         <input
                             type="number"
                             class="form-control"
                             name="max_price"
                             value="{{ max_price }}">
                     </div>
-
+ 
                     <button class="btn btn-dark w-100">
                         Filter
                     </button>
-
+ 
                 </form>
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
    <div class="col-lg-9" id="cars-section">
-
+ 
     {% if query %}
         <p class="text-muted">
             "<strong>{{ query }}</strong>" bo'yicha qidiruv natijalari:
         </p>
     {% endif %}
-
+ 
     <div class="row g-4">
-
+ 
     {% for car in cars %}
     <div class="col-lg-4 col-md-6 mb-4">
-
+ 
     <div class="car-card">
-
+ 
         {% if car.image %}
             <img src="{{ car.image.url }}" class="car-image">
         {% else %}
             <img src="https://via.placeholder.com/600x800" class="car-image">
         {% endif %}
-
+ 
         <div class="overlay">
-
+ 
             <span class="badge bg-light text-dark">
                 {{ car.year }}
             </span>
-
+ 
             <h3>{{ car.brand.name }}</h3>
-
+ 
             <h5>{{ car.name }}</h5>
-
+ 
             <h4>${{ car.price }}</h4>
-
+ 
             <a href="{% url 'cars:car_detail' car.pk %}"
                class="btn btn-outline-light w-100">
                 Batafsil
             </a>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
 </div>
-
+ 
     {% empty %}
-
+ 
     <div class="col-12">
         <div class="alert alert-warning">
             Hech qanday mashina topilmadi.
         </div>
     </div>
-
+ 
    {% endfor %}
-
+ 
     </div> <!-- row g-4 -->
+ 
+    {% if is_paginated %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+ 
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">
+                    &laquo; Oldingi
+                </a>
+            </li>
+            {% endif %}
+ 
+            <li class="page-item disabled">
+                <span class="page-link">
+                    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+ 
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}">
+                    Keyingi &raquo;
+                </a>
+            </li>
+            {% endif %}
+ 
+        </ul>
+    </nav>
+    {% endif %}
+ 
 </div> <!-- col-lg-9 -->
-
+ 
 </div> <!-- row -->
-
+ 
 {% endblock %}
